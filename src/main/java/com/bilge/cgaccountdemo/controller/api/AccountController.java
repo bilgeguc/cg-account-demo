@@ -9,6 +9,8 @@ import com.bilge.cgaccountdemo.model.AccountStatement;
 import com.bilge.cgaccountdemo.service.AccountService;
 import com.bilge.cgaccountdemo.service.CustomerService;
 import com.bilge.cgaccountdemo.service.TransactionService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +28,7 @@ import java.util.Map;
 
 @RestController
 public class AccountController {
+	private static final Logger log = LoggerFactory.getLogger(TransactionController.class);
 	@Autowired
 	private AccountService accountService;
 
@@ -57,9 +60,11 @@ public class AccountController {
 				accountService.addToBalance(account.getAccountID(), transaction.getTransactionAmount());
 				responseObject.put("message","New account is created for customer: " + customer.getName() + " " + customer.getSurname()+
 						" and transaction is succesfull for the amount:" + transaction.getTransactionAmount());
+
 			}else{
 				responseObject.put("message","New account is created for customer: " + customer.getName() + " " + customer.getSurname());
 			}
+			log.info("New Account : " + account.getAccountID());
 			responseObject.put("result",true);
 			responseStatus = HttpStatus.CREATED;
 		}else{
@@ -73,8 +78,6 @@ public class AccountController {
 	public ResponseEntity<Object> getCustomer(@PathVariable("id") Long customerId){
 		Map<String,Object> customerInfo = new HashMap<>();
 		Customer customer = customerService.findById(customerId);
-		List<Account> accounts = accountService.findAccountsByCustomerID(customerId);
-
 
 		customerInfo.put("customerId",customer.getCustomerId());
 		customerInfo.put("customerName",customer.getName());

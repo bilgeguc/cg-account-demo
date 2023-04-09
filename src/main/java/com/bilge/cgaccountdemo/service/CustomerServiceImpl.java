@@ -2,7 +2,7 @@ package com.bilge.cgaccountdemo.service;
 
 import com.bilge.cgaccountdemo.entities.Customer;
 import com.bilge.cgaccountdemo.repo.CustomerRepository;
-import com.bilge.cgaccountdemo.responseerrors.CustomerNotFoundException;
+import com.bilge.cgaccountdemo.errors.CustomerNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

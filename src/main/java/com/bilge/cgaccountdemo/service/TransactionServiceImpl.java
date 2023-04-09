@@ -6,8 +6,10 @@ import com.bilge.cgaccountdemo.entities.Transaction;
 import com.bilge.cgaccountdemo.repo.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,6 +29,7 @@ public class TransactionServiceImpl implements TransactionService{
 		return transactionRepository.findById(transaction.getTransactionID()).get();
 	}
 
+	@Transactional
 	@Override
 	public Transaction addCreadit(CreditBalanceRequest creditBalanceRequest) {
 		Transaction transaction = new Transaction(creditBalanceRequest.getAccountID(), creditBalanceRequest.getTransactionAmount(), TransactionType.CREDIT);
@@ -47,7 +50,7 @@ public class TransactionServiceImpl implements TransactionService{
 	public List<Transaction> listTransactionsByDatetime(Long accountID){
 		List<Transaction> transactions = transactionRepository.findByAccountIDIs(accountID);
 		return transactions.stream()
-				.sorted()
+				.sorted(Comparator.comparing(Transaction::getTransactionDatetime).reversed())
 				.collect(Collectors.toList());
 	}
 }

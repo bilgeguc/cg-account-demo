@@ -1,4 +1,4 @@
-package com.bilge.cgaccountdemo.responseerrors;
+package com.bilge.cgaccountdemo.errors;
 
 public class CustomerNotFoundException extends RuntimeException{
 	public CustomerNotFoundException(Long customerID){

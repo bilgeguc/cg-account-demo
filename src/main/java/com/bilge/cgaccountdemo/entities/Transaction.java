@@ -16,7 +16,7 @@ public class Transaction {
 	private Long accountID;
 	private BigDecimal transactionAmount;
 	private TransactionType transactionType;
-	private Timestamp transactionDatetime;
+	public Timestamp transactionDatetime;
 
 	public Transaction(){}
 
